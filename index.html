@@ -9,10 +9,50 @@
     <meta property="og:description" content="Challenge your brain with fast-paced math problems! Multiple game modes, leaderboards, and exciting gameplay." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://princekumarjha83-oss.github.io/maths-1/" />
-    <script type="module" crossorigin src="/maths-1/assets/index-D4AMhocz.js?v=202404200835"></script>
     <link rel="stylesheet" crossorigin href="/maths-1/assets/index-jhwhGTdq.css?v=202404200835">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #0f172a; color: white; font-family: system-ui;">
+        <div style="text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">Loading Math Rush...</div>
+          <div style="color: #94a3b8;">Please wait while the game loads</div>
+        </div>
+      </div>
+    </div>
+    <script type="module" crossorigin src="/maths-1/assets/index-D4AMhocz.js?v=202404200835"></script>
+    <script>
+      // Error handling
+      window.addEventListener('error', function(e) {
+        console.error('JavaScript error:', e.error);
+        document.getElementById('root').innerHTML = `
+          <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #0f172a; color: white; font-family: system-ui;">
+            <div style="text-align: center; max-width: 500px; padding: 2rem;">
+              <div style="font-size: 1.5rem; margin-bottom: 1rem; color: #ef4444;">Error Loading Game</div>
+              <div style="color: #94a3b8; margin-bottom: 1rem;">There was an error loading the Math Rush game.</div>
+              <div style="color: #64748b; font-size: 0.875rem;">Please try refreshing the page.</div>
+            </div>
+          </div>
+        `;
+      });
+      
+      // Timeout handling
+      setTimeout(() => {
+        const root = document.getElementById('root');
+        if (root && root.innerHTML.includes('Loading Math Rush')) {
+          root.innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #0f172a; color: white; font-family: system-ui;">
+              <div style="text-align: center;">
+                <div style="font-size: 1.5rem; margin-bottom: 1rem;">Taking longer than expected...</div>
+                <div style="color: #94a3b8; margin-bottom: 1rem;">The game is still loading.</div>
+                <button onclick="window.location.reload()" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">
+                  Refresh Page
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      }, 10000);
+    </script>
   </body>
 </html>
