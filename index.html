@@ -20,39 +20,66 @@
         </div>
       </div>
     </div>
-    <script type="module" crossorigin src="/maths-1/assets/index-D4AMhocz.js?v=202404200835"></script>
     <script>
+      // Debugging: Check if script loads
+      console.log('Debug: HTML loaded, about to load React app');
+      
+      // Check if React root element exists
+      const rootElement = document.getElementById('root');
+      console.log('Debug: Root element found:', rootElement);
+      
+      // Monitor when React script loads
+      window.addEventListener('load', function() {
+        console.log('Debug: All scripts loaded');
+        setTimeout(() => {
+          if (rootElement.innerHTML.includes('Loading Math Rush')) {
+            console.log('Debug: React app did not replace loading content');
+            rootElement.innerHTML = `
+              <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #0f172a; color: white; font-family: system-ui;">
+                <div style="text-align: center; max-width: 500px; padding: 2rem;">
+                  <div style="font-size: 1.5rem; margin-bottom: 1rem; color: #fbbf24;">Debug Info</div>
+                  <div style="color: #94a3b8; margin-bottom: 1rem;">React app loaded but didn't render.</div>
+                  <div style="color: #64748b; font-size: 0.875rem; margin-bottom: 1rem;">Check browser console (F12) for errors.</div>
+                  <button onclick="window.location.reload()" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">
+                    Refresh Page
+                  </button>
+                </div>
+              </div>
+            `;
+          }
+        }, 3000);
+      });
+      
       // Error handling
       window.addEventListener('error', function(e) {
         console.error('JavaScript error:', e.error);
-        document.getElementById('root').innerHTML = `
+        rootElement.innerHTML = `
           <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #0f172a; color: white; font-family: system-ui;">
             <div style="text-align: center; max-width: 500px; padding: 2rem;">
-              <div style="font-size: 1.5rem; margin-bottom: 1rem; color: #ef4444;">Error Loading Game</div>
-              <div style="color: #94a3b8; margin-bottom: 1rem;">There was an error loading the Math Rush game.</div>
+              <div style="font-size: 1.5rem; margin-bottom: 1rem; color: #ef4444;">JavaScript Error</div>
+              <div style="color: #94a3b8; margin-bottom: 1rem;">Error: ${e.error ? e.error.message : 'Unknown error'}</div>
               <div style="color: #64748b; font-size: 0.875rem;">Please try refreshing the page.</div>
             </div>
           </div>
         `;
       });
       
-      // Timeout handling
-      setTimeout(() => {
-        const root = document.getElementById('root');
-        if (root && root.innerHTML.includes('Loading Math Rush')) {
-          root.innerHTML = `
+      // Module loading error handling
+      window.addEventListener('error', function(e) {
+        if (e.target && e.target.tagName === 'SCRIPT') {
+          console.error('Script loading error:', e.target.src);
+          rootElement.innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #0f172a; color: white; font-family: system-ui;">
-              <div style="text-align: center;">
-                <div style="font-size: 1.5rem; margin-bottom: 1rem;">Taking longer than expected...</div>
-                <div style="color: #94a3b8; margin-bottom: 1rem;">The game is still loading.</div>
-                <button onclick="window.location.reload()" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">
-                  Refresh Page
-                </button>
+              <div style="text-align: center; max-width: 500px; padding: 2rem;">
+                <div style="font-size: 1.5rem; margin-bottom: 1rem; color: #ef4444;">Script Loading Error</div>
+                <div style="color: #94a3b8; margin-bottom: 1rem;">Failed to load: ${e.target.src}</div>
+                <div style="color: #64748b; font-size: 0.875rem;">Please try refreshing the page.</div>
               </div>
             </div>
           `;
         }
-      }, 10000);
+      }, true);
     </script>
+    <script type="module" crossorigin src="/maths-1/assets/index-D4AMhocz.js?v=202404200835"></script>
   </body>
 </html>
